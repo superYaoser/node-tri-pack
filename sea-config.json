@@ -1,0 +1,10 @@
+{
+    "main": "./tmp/main.js",
+    "output": "./tmp/main.blob",
+    "disableExperimentalSEAWarning": true,
+    "useSnapshot": false,
+    "useCodeCache": true,
+    "assets": {
+        "libs.zip": "./tmp/libs.zip"
+    }
+}

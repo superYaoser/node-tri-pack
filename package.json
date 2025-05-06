@@ -1,0 +1,72 @@
+{
+    "name": "node-tri-pack",
+    "version": "0.0.1",
+    "author": "superyaoser <yaoserpro@163.com>",
+    "description": "将Node.js项目打包为独立可执行文件！支持Windows EXE/macOS App/Linux",
+    "license": "MIT",
+    "scripts": {
+        "start": "ts-node src/main.ts",
+        "start:dev": "ts-node src/main.ts",
+        "start:prod": "node tmp/main.js",
+        "type-check": "tsc --noEmit",
+        "clear": "rimraf tmp dist",
+        "webpack:prod": "npm run clear && cross-env RUNNING_ENV=prod webpack --config webpack.config.js",
+        "webpack:dev": "npm run clear && cross-env RUNNING_ENV=dev webpack --config webpack.config.js",
+        "create:into-prefix": "ts-node scripts/build/build-add-main-prefix-function.ts",
+        "create:npm-pack": "ts-node scripts/build/build-move-npm-pack.ts",
+        "create:models-zip": "node scripts/build/build-models-to-zip.js",
+        "create:dist-dir": "node -e \"require('fs').mkdirSync('./dist', { recursive: true });\" ",
+        "create:blob": "node --experimental-sea-config sea-config.json",
+        "sync:create": "npm run create:into-prefix && npm run create:npm-pack && npm run create:models-zip && npm run create:dist-dir && npm run create:blob",
+        "init:app-win": "node -e \"require('fs').copyFileSync(process.execPath, 'dist/main.exe')\" ",
+        "init:app-linux": "cp $(command -v node) main ",
+        "init:app-mac": "cp $(command -v node) main ",
+        "into:blob-win": "postject dist/main.exe NODE_SEA_BLOB tmp/main.blob ^ --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2",
+        "into:blob-linux": "postject dist/main NODE_SEA_BLOB tmp/main.blob \\ --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2",
+        "into:blob-mac": "postject dist/main NODE_SEA_BLOB tmp/main.blob \\ --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2 \\ --macho-segment-name NODE_SEA",
+        "build:external-win": "npm run sync:create && npm run init:app-win && npm run into:blob-win",
+        "build:external-linux": "npm run sync:create && npm run init:app-linux && npm run into:blob-linux",
+        "build:external-mac": "npm run sync:create && npm run init:app-mac && npm run into:blob-mac",
+        "build:this-prod-win": "npm run webpack:prod && npm run build:external-win",
+        "build:this-dev-win": "npm run webpack:dev && npm run build:external-win",
+        "build:this-prod-linux": "npm run webpack:prod && npm run build:external-linux",
+        "build:this-dev-linux": "npm run webpack:dev && npm run build:external-linux",
+        "build:this-prod-mac": "npm run webpack:prod && npm run build:external-mac",
+        "build:this-dev-mac": "npm run webpack:dev && npm run build:external-mac",
+        "test": "jest",
+        "test:watch": "jest --watchAll"
+    },
+    "keywords": [
+        "nodejs",
+        "windows-exe",
+        "macos-app",
+        "linux-binary",
+        "build-tool"
+    ],
+    "dependencies": {
+        "reflect-metadata": "^0.2.0",
+        "fs-extra": "^11.2.0"
+    },
+    "devDependencies": {
+        "@types/jest": "^29.5.12",
+        "@types/node": "^22.15.3",
+        "archiver": "^7.0.1",
+        "cross-env": "^7.0.3",
+        "jest": "^29.7.0",
+        "jest-environment-jsdom": "^29.7.0",
+        "postject": "^1.0.0-alpha.6",
+        "rimraf": "^6.0.1",
+        "ts-jest": "^29.1.2",
+        "ts-loader": "^9.5.2",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.8.3",
+        "webpack": "^5.99.7",
+        "webpack-cli": "^6.0.1",
+        "webpack-node-externals": "^3.0.0",
+        "@types/fs-extra": "^11.0.4"
+    },
+    "engines": {
+        "node": ">= 22.0.0",
+        "npm": ">= 10.9.0"
+    }
+}

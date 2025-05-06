@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "incremental": false, 
+    "declaration": false, // 禁止生成 .d.ts 文件
+    "sourceMap": false,
+    "inlineSourceMap": false,
+    "skipLibCheck": true
+  }
+}
