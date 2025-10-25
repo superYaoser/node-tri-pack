@@ -82,7 +82,12 @@
         }
 
         try {
-            execSync(command);
+            const zipFileSize = fs.statSync(zipFilePath).size;
+            console.log("libs压缩文件大小:", zipFileSize);
+            execSync(command,{
+                maxBuffer: zipFileSize, // 缓冲区提升到压缩文件大小
+                stdio: 'ignore'         // 忽略输出，避免缓冲区被日志填满[1](@ref)
+            });
             console.log("解压完成");
             fs.unlinkSync(zipFilePath); //删除zip文件
             console.log("删除libs压缩文件成功");
